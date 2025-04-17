@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Étudiant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenue à l'examen</h1>
+
+    <!-- Formulaire d'inscription -->
+    <form id="loginForm">
+      <label for="username">Nom d'utilisateur :</label>
+      <input type="text" id="username" name="username" placeholder="Entrez votre nom" required>
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <!-- Demande de géolocalisation -->
+    <div id="locationRequest" class="hidden">
+      <p>Veuillez activer votre géolocalisation pour commencer l'examen.</p>
+      <button onclick="getLocation()">Activer la géolocalisation</button>
+    </div>
+
+    <!-- Interface de l'examen -->
+    <div id="exam" class="hidden">
+    <div id="questionContainer">
+        <p id="questionText"></p>
+        <div id="optionsContainer"></div>
+      </div>
+      <div id="timerContainer">
+        <p>Temps restant : <span id="timer">30</span> secondes</p>
+      </div>
+      <button id="nextButton" onclick="nextQuestion()">Question suivante</button>
+    </div>
+
+    <!-- Résultat final -->
+    <div id="result" class="hidden">
+      <p>Votre score : <span id="score">0</span>/100</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
