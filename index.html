@@ -1,76 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload Exam</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Ajouter un Examen</title>
 </head>
 <body>
-  <h1>Upload Exam</h1>
-  <form id="examForm" enctype="multipart/form-data">
-    <input type="text" id="title" placeholder="Exam Title" required><br>
-    <textarea id="description" placeholder="Exam Description" required></textarea><br>
-    <input type="file" id="examFile" required><br>
-
-    <div id="questions">
-      <h3>Questions</h3>
-      <div class="question">
-        <input type="text" placeholder="Question Text" class="questionText" required>
-        <input type="text" placeholder="QCM Options (comma-separated)" class="qcmOptions">
-      </div>
-    </div>
-    <button type="button" onclick="addQuestion()">➕ Add Question</button><br><br>
-
-    <button type="submit">Upload Exam</button>
+  <h1>Créer un nouvel examen</h1>
+  <form id="form-examen">
+    <input type="text" id="nom" placeholder="Nom de l'examen" required><br>
+    <input type="number" id="duree" placeholder="Durée (minutes)" required><br>
+    <textarea id="description" placeholder="Description"></textarea><br>
+    <input type="email" id="email" placeholder="Email du propriétaire" required><br>
+    <button type="submit">Ajouter l'examen</button>
   </form>
-
-  <script>
-    // Function to add more questions dynamically
-    function addQuestion() {
-      const div = document.createElement('div');
-      div.classList.add('question');
-      div.innerHTML = `
-        <input type="text" placeholder="Question Text" class="questionText" required>
-        <input type="text" placeholder="QCM Options (comma-separated)" class="qcmOptions">
-      `;
-      document.getElementById('questions').appendChild(div);
-    }
-
-    // Handle form submission
-    document.getElementById('examForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const title = document.getElementById('title').value;
-      const description = document.getElementById('description').value;
-      const file = document.getElementById('examFile').files[0];
-      const token = localStorage.getItem("token");
-
-      const questionTexts = Array.from(document.getElementsByClassName('questionText')).map(el => el.value);
-      const qcmOptions = Array.from(document.getElementsByClassName('qcmOptions')).map(el => el.value);
-
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("examFile", file);
-
-      // Add question and QCM options to formData
-      questionTexts.forEach((q, i) => {
-        formData.append(questions[], q);
-        formData.append(qcm[], qcmOptions[i]);
-      });
-
-      fetch('http://localhost:3000/upload-exam', {
-        method: 'POST',
-        headers: {
-          'Authorization': Bearer ${token}
-        },
-        body: formData
-      })
-      .then(response => response.text())
-      .then(data => alert(data))
-      .catch(err => console.error("Error:", err));
-    });
-  </script>
+  
+  <script src="script.js"></script>
 </body>
 </html>
