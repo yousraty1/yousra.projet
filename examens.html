@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liste des Examens</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .exam-container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .exam {
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    .exam:last-child {
+      border-bottom: none;
+    }
+    .exam h3 {
+      margin: 0;
+      color: #007bff;
+    }
+    .exam p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📚 Examens enregistrés</h1>
+  <div class="exam-container" id="examContainer">
+    <!-- Examens affichés ici -->
+  </div>
+
+  <script>
+    // Simuler plusieurs examens dans localStorage si ce n'est pas déjà fait
+    // Supprime ce bloc si tes examens sont déjà enregistrés
+    /*
+    const sampleExams = [
+      {
+        title: "Examen de Mathématiques",
+        description: "Contrôle final du semestre",
+        audience: "2e année SMI",
+        link: "https://exam.com/math123",
+        questions: []
+      },
+      {
+        title: "Examen de Physique",
+        description: "Test de mi-semestre",
+        audience: "1ère année",
+        link: "https://exam.com/phy456",
+        questions: []
+      }
+    ];
+    localStorage.setItem('allExams', JSON.stringify(sampleExams));
+    */
+
+    // Récupérer tous les examens depuis le localStorage
+    const exams = JSON.parse(localStorage.getItem('allExams')) || [];
+
+    const container = document.getElementById('examContainer');
+
+    if (exams.length === 0) {
+      container.innerHTML = "<p>Aucun examen enregistré pour le moment.</p>";
+    } else {
+      exams.forEach((exam, index) => {
+        const examDiv = document.createElement('div');
+        examDiv.className = "exam";
+        examDiv.innerHTML = `
+          <h3>${exam.title}</h3>
+          <p><strong>Description :</strong> ${exam.description}</p>
+          <p><strong>Public :</strong> ${exam.audience}</p>
+          <p><strong>Lien :</strong> <a href="${exam.link}" target="_blank">${exam.link}</a></p>
+          <p><strong>Questions :</strong> ${exam.questions.length}</p>
+        `;
+        container.appendChild(examDiv);
+      });
+    }
+  </script>
+<script>
+    const exams = JSON.parse(localStorage.getItem('allExams')) || [];
+    const container = document.getElementById('examContainer');
+  
+    if (exams.length === 0) {
+      container.innerHTML = "<p>Aucun examen enregistré pour le moment.</p>";
+    } else {
+      exams.forEach((exam, index) => {
+        const examDiv = document.createElement('div');
+        examDiv.className = "exam";
+  
+        // Contenu principal de l'examen
+        examDiv.innerHTML = `
+          <h3>${exam.title}</h3>
+          <p><strong>Description :</strong> ${exam.description}</p>
+          <p><strong>Public :</strong> ${exam.audience}</p>
+          <p><strong>Lien :</strong> <a href="${exam.link}" target="_blank">${exam.link}</a></p>
+          <p><strong>Questions :</strong> ${exam.questions.length}</p>
+          <button onclick="toggleQuestions(${index})">Afficher les questions</button>
+          <div id="questionList-${index}" style="display:none; margin-top:10px;"></div>
+        `;
+  
+        container.appendChild(examDiv);
+      });
+    }
+  
+    // Fonction pour afficher/masquer les questions
+    function toggleQuestions(index) {
+      const questionDiv = document.getElementById(`questionList-${index}`);
+      const exam = JSON.parse(localStorage.getItem('allExams'))[index];
+  
+      if (questionDiv.style.display === 'none') {
+        questionDiv.style.display = 'block';
+        if (questionDiv.innerHTML === '') {
+          if (exam.questions.length === 0) {
+            questionDiv.innerHTML = '<p>Aucune question enregistrée.</p>';
+          } else {
+            exam.questions.forEach((q, i) => {
+              const qHTML = `
+                <div style="margin-bottom: 10px; padding: 10px; background: #f1f1f1; border-radius: 5px;">
+                  <p><strong>Q${i + 1} :</strong> ${q.enonce}</p>
+                  <p><strong>Type :</strong> ${q.type}</p>
+                  <p><strong>Durée :</strong> ${q.duration} secondes</p>
+                  <p><strong>Note :</strong> ${q.score}</p>
+                  ${q.type === 'direct'
+                    ? `<p><strong>Réponse :</strong> ${q.answer} (Tolérance: ${q.tolerance}%)</p>`
+                    : `<p><strong>Options :</strong> ${q.options.join(', ')}<br><strong>Réponses correctes :</strong> ${q.correctAnswers.join(', ')}</p>`
+                  }
+                </div>
+              `;
+              questionDiv.innerHTML += qHTML;
+            });
+          }
+        }
+      } else {
+        questionDiv.style.display = 'none';
+      }
+    }
+  </script>
+  
+</body>
+</html>
