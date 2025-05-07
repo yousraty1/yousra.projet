@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulaire d'examen</title>
+  <!-- Bootstrap 5 CDN -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">Création d'un examen</h2>
+
+    <!-- Formulaire de l'examen -->
+    <form>
+      <div class="mb-3">
+        <label class="form-label">Titre de l'examen</label>
+        <input type="text" class="form-control" placeholder="Ex : Examen de Mathématiques" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" rows="3" placeholder="Description de l'examen"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Public ciblé</label>
+        <input type="text" class="form-control" placeholder="Ex : 2e année SMI, S4, groupe A" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Lien unique d'accès</label>
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            id="examLink"
+            value="https://exam.com/abc123"
+            readonly
+          />
+          <button type="button" class="btn btn-outline-secondary" onclick="generateLink()">Générer un lien unique</button>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Ajout d'une question -->
+      <h4 class="mb-3">Ajouter une question à un examen</h4>
+
+      <div class="mb-3">
+        <label class="form-label">Type de question</label>
+        <select class="form-select" id="questionType" onchange="toggleQuestionType()">
+          <option value="direct">Question directe</option>
+          <option value="qcm">QCM</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Énoncé de la question</label>
+        <textarea class="form-control" placeholder="Énoncez la question ici"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Joindre un média</label>
+        <input type="file" class="form-control" />
+      </div>
+
+      <!-- Partie Question directe -->
+      <div id="directFields">
+        <div class="mb-3">
+          <label class="form-label">Réponse (directe)</label>
+          <input type="text" class="form-control" placeholder="Réponse attendue" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Taux de tolérance (%)</label>
+          <input type="number" class="form-control" placeholder="Ex : 10" />
+        </div>
+      </div>
+
+      <!-- Partie QCM -->
+      <div id="qcmFields" class="d-none">
+        <div class="mb-3">
+          <label class="form-label">Options (pour QCM)</label>
+          <input type="text" class="form-control" placeholder="Option 1, Option 2, Option 3" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Réponses correctes (pour QCM)</label>
+          <input type="text" class="form-control" placeholder="Ex : Option 1, Option 3" />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Durée (en secondes)</label>
+        <input type="number" class="form-control" placeholder="Durée en secondes" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Note</label>
+        <input type="number" class="form-control" placeholder="Note pour cette question" />
+      </div>
+
+      <button type="button" class="btn btn-primary">Ajouter la question</button>
+
+      <hr />
+
+      <h5 class="mt-4">Questions ajoutées :</h5>
+      <ul class="list-group mt-2" id="questionList">
+        <!-- Questions ajoutées ici -->
+      </ul>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS + Script perso -->
+  <script>
+    function toggleQuestionType() {
+      const type = document.getElementById('questionType').value;
+      document.getElementById('directFields').classList.toggle('d-none', type !== 'direct');
+      document.getElementById('qcmFields').classList.toggle('d-none', type !== 'qcm');
+    }
+
+    function generateLink() {
+      const random = Math.random().toString(36).substring(2, 8);
+      document.getElementById('examLink').value = 'https://exam.com/' + random;
+    }
+  </script>
+</body>
+</html>
